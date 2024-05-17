@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Page Title</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+</html>
+</head>
+<body>
+  <!-- <h1>THE TITLE OF YOUR WEBPAGE</h1> -->
+  <!-- <div id="container"></div> -->
+  <div id="container">
+    <div class="bookCard">
+      <h2>Catcher in the Rye</h2>
+      <p class="author">J.D. Salinger</p>
+      <p>180 pages</p>
+      <p>I haven't read it yet</p>
+    </div>
+    <div class="bookCard">
+      <h2>Catcher in the Rye</h2>
+      <p class="author">J.D. Salinger</p>
+      <p>180 pages</p>
+      <p>I haven't read it yet</p>
+    </div>
+    <div id="popUp">
+      <form>
+        <label for="author">Author:</label>
+        <input type="text" id="author" /><br />
+        <label for="book">Book:</label>
+        <input type="text" id="book" /><br />
+        <label for="pages">Number of Pages:</label>
+        <input type="text" id="pages" /><br />
+        <label for="read">Have you read it yet?:</label>
+        <label for="yes"
+          ><input
+            type="radio"
+            name="yesNo"
+            id="yesNo"
+            value="yes"
+          />Yes</label
+        >
+        <label for="no"
+          ><input type="radio" name="yesNo" value="no" />No</label
+        ><br />
+      </form>
+      <div id="btnAlign">
+        <button class="btn" id="btnAddBook">Add Book</button>
+      </div>
+    </div>
+    <div id="btnAlign">
+      <button class="btn" id="btnPopUp">Add Book</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
