@@ -32,6 +32,13 @@ header {
   padding: 10px 20px;
   margin: 10px;
   width: 14rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bookInfo {
+  flex-grow: 1;
 }
 
 form {
@@ -52,6 +59,34 @@ button {
 
 button:hover {
   background-color: goldenrod;
+}
+
+.btnsBookCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.haveReadBtn {
+  background-color: green;
+  width: 90%;
+}
+
+.haveReadBtn:hover {
+  background-color: rgba(0, 128, 0, 0.802);
+}
+
+.removeBtn {
+  background-color: red;
+  width: 90%;
+}
+
+.removeBtn:hover {
+  background-color: rgba(255, 0, 0, 0.801);
+}
+
+#btnAddBook {
+  width: 90%;
 }
 
 #newbook.button {

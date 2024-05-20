@@ -1,39 +1,4 @@
-const myLibrary = [];
-const container = document.getElementById("container");
-const author = document.getElementById("author");
-const name = document.getElementById("book");
-const pages = document.getElementById("pages");
-const yesNo = document.getElementsByName("yesNo");
-const popUp = document.getElementById("popUp");
-const button = document.getElementById("btnPopUp");
-const buttonAdd = document.getElementById("btnAddBook");
-let valueAuthor;
-let valueBook;
-let valuePages;
-let valueYesNo;
-
-button.addEventListener("click", () => {
-  popUp.style.visibility =
-    popUp.style.visibility === "visible" ? "hidden" : "visible";
-  console.log("clicked");
-});
-
-buttonAdd.addEventListener("click", () => {
-  // clearMyLibrary();
-  valueAuthor = author.value;
-  valueBook = name.value;
-  valuePages = pages.value;
-  for (i = 0; i < yesNo.length; i++) {
-    if (yesNo[i].checked) valueYesNo = yesNo[i].value;
-  }
-  const book = new Book(valueAuthor, valueBook, valuePages, valueYesNo);
-  addBookToLibrary(book);
-  console.log(myLibrary);
-  clearFields();
-  popUp.style.visibility = "hidden";
-  displayMyLibrary();
-});
-
+//Create constructor for Book
 function Book(author, name, pages, read) {
   this.author = author;
   this.name = name;
@@ -41,10 +6,55 @@ function Book(author, name, pages, read) {
   this.read = read;
 }
 
+//Set variables for the app
+const myLibrary = [];
+
+const author = document.getElementById("author");
+const name = document.getElementById("book");
+const pages = document.getElementById("pages");
+const yesNo = document.getElementsByName("yesNo");
+const popUp = document.getElementById("popUp");
+const button = document.getElementById("btnPopUp");
+const buttonAdd = document.getElementById("btnAddBook");
+// let valueAuthor;
+// let valueBook;
+// let valuePages;
+// let valueYesNo;
+
+function createBook() {
+  let valueAuthor = author.value;
+  let valueBook = name.value;
+  let valuePages = pages.value;
+  let valueYesNo = "";
+  for (i = 0; i < yesNo.length; i++) {
+    if (yesNo[i].checked) valueYesNo = yesNo[i].value;
+  }
+  const book = new Book(valueAuthor, valueBook, valuePages, valueYesNo);
+  addBookToLibrary(book);
+}
+//Create popup on click
+button.addEventListener("click", () => {
+  popUp.style.visibility =
+    popUp.style.visibility === "visible" ? "hidden" : "visible";
+});
+
+//Add book to library and display library on click
+buttonAdd.addEventListener("click", (e) => {
+  // clearMyLibrary();
+  e.preventDefault();
+  createBook();
+  displayMyLibrary();
+  console.log(myLibrary);
+  clearFields();
+  popUp.style.visibility = "hidden";
+});
+
+//push new book to myLibrary array
 function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
+//clear library function
 function clearFields() {
   author.value = "";
   name.value = "";
@@ -52,73 +62,88 @@ function clearFields() {
   document.querySelector('input[name="yesNo"]:checked').checked = false;
 }
 
+//function to display the library
 function displayMyLibrary() {
-  // for (let i = 0; i < array.length; i++) {
-  //   div = document.createElement("div");
-  //   div.classList.add("bookCard");
-  //   h2 = document.createElement("h2");
-  //   h2.innerHTML = array[i].name;
-  //   authorText = document.createElement("p");
-  //   authorText.classList.add("author");
-  //   authorText.innerHTML = array[i].author;
-  //   pagesInfo = document.createElement("p");
-  //   pagesInfo.innerHTML = array[i].pages;
-  //   readInfo = document.createElement("p");
-  //   readInfo.innerHTML = array[i].read;
-  //   div.appendChild(h2);
-  //   div.appendChild(authorText);
-  //   div.appendChild(pagesInfo);
-  //   div.appendChild(readInfo);
-  //   container.appendChild(div);
-  // }
-  let currentIndex = myLibrary.length - 1;
-  div = document.createElement("div");
-  div.classList.add("bookCard");
-  div.setAttribute("id", `bookCard${currentIndex}`);
-  h2 = document.createElement("h2");
-  h2.innerHTML = valueBook;
-  authorText = document.createElement("p");
-  authorText.classList.add("author");
-  authorText.innerHTML = valueAuthor;
-  pagesInfo = document.createElement("p");
-  pagesInfo.innerHTML = valuePages;
-  readInfo = document.createElement("p");
-  readInfo.innerHTML = valueYesNo;
-  changeStatusBtn = document.createElement("button");
-  changeStatusBtn.innerHTML = "READ";
-  changeStatusBtn.addEventListener("click", () => {
-    if (readInfo.textContent === "yes") {
-      readInfo.textContent = "no";
-    } else {
-      readInfo.textContent = "yes";
-    }
+  const container = document.getElementById("container");
+  container.textContent = "";
+  let i = 0;
+  myLibrary.forEach((book) => {
+    const divBookCard = document.createElement("div");
+    const divBookInfo = document.createElement("div");
+    const h2 = document.createElement("h2");
+    const authorText = document.createElement("p");
+    const pagesInfo = document.createElement("p");
+    const readInfo = document.createElement("p");
+    const btnsBookCard = document.createElement("div");
+    const changeStatusBtn = document.createElement("button");
+    const removeBtn = document.createElement("button");
+
+    divBookCard.classList.add("bookCard");
+    divBookInfo.classList.add("bookInfo");
+    btnsBookCard.classList.add("btnsBookCard");
+    authorText.classList.add("author");
+    removeBtn.setAttribute("class", "removeBtn");
+    removeBtn.setAttribute("data-index", i);
+    changeStatusBtn.classList.add("haveReadBtn");
+
+    h2.innerHTML = book.name;
+    authorText.innerHTML = book.author;
+    pagesInfo.innerHTML = book.pages;
+    readInfo.innerHTML = book.read;
+    changeStatusBtn.innerHTML = "READ";
+    removeBtn.innerHTML = "REMOVE BOOK";
+
+    changeStatusBtn.addEventListener("click", () => {
+      if (readInfo.textContent === "yes") {
+        readInfo.textContent = "no";
+      } else {
+        readInfo.textContent = "yes";
+      }
+    });
+
+    const dataId = i.toString();
+    divBookCard.setAttribute("data-id", dataId);
+
+    divBookInfo.appendChild(h2);
+    divBookInfo.appendChild(authorText);
+    divBookInfo.appendChild(pagesInfo);
+    divBookInfo.appendChild(readInfo);
+    btnsBookCard.appendChild(changeStatusBtn);
+    btnsBookCard.appendChild(removeBtn);
+
+    divBookCard.appendChild(divBookInfo);
+    divBookCard.appendChild(btnsBookCard);
+
+    container.appendChild(divBookCard);
+
+    i++;
   });
-  removeBtn = document.createElement("button");
-  removeBtn.innerHTML = "REMOVE BOOK";
-  removeBtn.setAttribute("data-index", currentIndex);
-  removeBtn.addEventListener("click", () => {
-    let bookToRemove = removeBtn.getAttribute("data-index");
-    myLibrary.splice(bookToRemove, 1);
-    const elementToRemove = document.getElementById(`bookCard${currentIndex}`);
-    if (elementToRemove) {
-      elementToRemove.remove();
-    }
-    updateDataIndices();
-    // div.remove();
-    console.log(myLibrary);
-  });
-  div.appendChild(h2);
-  div.appendChild(authorText);
-  div.appendChild(pagesInfo);
-  div.appendChild(readInfo);
-  div.appendChild(changeStatusBtn);
-  div.appendChild(removeBtn);
-  container.appendChild(div);
 }
 
+displayMyLibrary();
+
+//function to update indices of the myLibrary books
 function updateDataIndices() {
   const elements = document.querySelectorAll("[data-index]");
   elements.forEach((element, index) => {
     element.setAttribute("data-index", index);
   });
+}
+
+document.getElementById("container").addEventListener("click", (e) => {
+  if (e.target.classList.contains("removeBtn")) {
+    const bookIndex = parseInt(e.target.closest(".bookCard").dataset.id);
+    console.log(bookIndex);
+    elementToRemove = e.target.closest(".bookCard");
+    if (elementToRemove) {
+      elementToRemove.remove();
+    }
+    removeBook(bookIndex);
+  }
+});
+
+function removeBook(id) {
+  console.log(myLibrary);
+  myLibrary.splice(id, 1);
+  // displayMyLibrary();
 }
