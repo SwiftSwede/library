@@ -38,6 +38,13 @@ button.addEventListener("click", () => {
     popUp.style.visibility === "visible" ? "hidden" : "visible";
 });
 
+//Close popUp on click outside of popUp
+document.addEventListener("click", (e) => {
+  if (!popUp.contains(e.target) && !button.contains(e.target)) {
+    popUp.style.visibility = "hidden";
+  }
+});
+
 //Add book to library and display library on click
 buttonAdd.addEventListener("click", (e) => {
   // clearMyLibrary();
@@ -147,3 +154,20 @@ function removeBook(id) {
   myLibrary.splice(id, 1);
   // displayMyLibrary();
 }
+
+//Change read status
+document.getElementById("container").addEventListener("click", (e) => {
+  if (e.target.classList.contains("haveReadBtn")) {
+    const bookIndex = parseInt(e.target.closest(".bookCard").dataset.id);
+    const book = myLibrary[bookIndex];
+    if (book.readInfo === "yes") {
+      console.log("Hey, yes");
+      e.target.innerText = "NOT READ";
+      e.target.style.backgroundColor = "red";
+    } else {
+      console.log("Hey, no");
+      e.target.innerText = "NOT READ";
+      e.target.style.backgroundColor = "red";
+    }
+  }
+});

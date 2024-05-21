@@ -70,6 +70,7 @@ button:hover {
 .haveReadBtn {
   background-color: green;
   width: 90%;
+  color: white;
 }
 
 .haveReadBtn:hover {
@@ -79,6 +80,7 @@ button:hover {
 .removeBtn {
   background-color: red;
   width: 90%;
+  color: white;
 }
 
 .removeBtn:hover {
