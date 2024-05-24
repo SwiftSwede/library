@@ -16,10 +16,6 @@ const yesNo = document.getElementsByName("yesNo");
 const popUp = document.getElementById("popUp");
 const button = document.getElementById("btnPopUp");
 const buttonAdd = document.getElementById("btnAddBook");
-// let valueAuthor;
-// let valueBook;
-// let valuePages;
-// let valueYesNo;
 
 function createBook() {
   let valueAuthor = author.value;
@@ -47,7 +43,6 @@ document.addEventListener("click", (e) => {
 
 //Add book to library and display library on click
 buttonAdd.addEventListener("click", (e) => {
-  // clearMyLibrary();
   e.preventDefault();
   createBook();
   displayMyLibrary();
@@ -89,24 +84,22 @@ function displayMyLibrary() {
     divBookInfo.classList.add("bookInfo");
     btnsBookCard.classList.add("btnsBookCard");
     authorText.classList.add("author");
+    pagesInfo.classList.add("pagesInfo");
+    readInfo.classList.add("readInfo");
     removeBtn.setAttribute("class", "removeBtn");
     removeBtn.setAttribute("data-index", i);
-    changeStatusBtn.classList.add("haveReadBtn");
+    if (book.read === "yes") {
+      changeStatusBtn.classList.add("haveReadBtn");
+    } else if (book.read === "no") {
+      changeStatusBtn.classList.add("haveNotReadBtn");
+    }
 
     h2.innerHTML = book.name;
     authorText.innerHTML = book.author;
     pagesInfo.innerHTML = book.pages;
     readInfo.innerHTML = book.read;
-    changeStatusBtn.innerHTML = "READ";
+    changeStatusBtn.innerHTML = book.read === "yes" ? "NOT READ" : "READ";
     removeBtn.innerHTML = "REMOVE BOOK";
-
-    changeStatusBtn.addEventListener("click", () => {
-      if (readInfo.textContent === "yes") {
-        readInfo.textContent = "no";
-      } else {
-        readInfo.textContent = "yes";
-      }
-    });
 
     const dataId = i.toString();
     divBookCard.setAttribute("data-id", dataId);
@@ -150,24 +143,33 @@ document.getElementById("container").addEventListener("click", (e) => {
 });
 
 function removeBook(id) {
-  console.log(myLibrary);
   myLibrary.splice(id, 1);
-  // displayMyLibrary();
 }
 
 //Change read status
 document.getElementById("container").addEventListener("click", (e) => {
-  if (e.target.classList.contains("haveReadBtn")) {
+  if (
+    e.target.classList.contains("haveReadBtn") ||
+    e.target.classList.contains("haveNotReadBtn")
+  ) {
     const bookIndex = parseInt(e.target.closest(".bookCard").dataset.id);
+    const bookCard = e.target.closest(".bookCard");
+    const readText = bookCard.querySelector(".readInfo");
     const book = myLibrary[bookIndex];
-    if (book.readInfo === "yes") {
-      console.log("Hey, yes");
-      e.target.innerText = "NOT READ";
+
+    if (book.read === "yes") {
+      book.read = "no";
+      readText.innerText = "no";
       e.target.style.backgroundColor = "red";
+      e.target.innerHTML = "READ";
+      console.log(book);
     } else {
-      console.log("Hey, no");
-      e.target.innerText = "NOT READ";
-      e.target.style.backgroundColor = "red";
+      e.target.innerText = "READ";
+      e.target.style.backgroundColor = "green";
+      e.target.innerHTML = "NOT READ";
+      readText.innerText = "yes";
+      book.read = "yes";
+      console.log(book);
     }
   }
 });
