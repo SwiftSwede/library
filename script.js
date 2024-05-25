@@ -46,7 +46,6 @@ buttonAdd.addEventListener("click", (e) => {
   e.preventDefault();
   createBook();
   displayMyLibrary();
-  console.log(myLibrary);
   clearFields();
   popUp.style.visibility = "hidden";
 });
@@ -122,23 +121,25 @@ function displayMyLibrary() {
 
 displayMyLibrary();
 
-//function to update indices of the myLibrary books
+// //function to update indices of the myLibrary books
 function updateDataIndices() {
   const elements = document.querySelectorAll("[data-index]");
-  elements.forEach((element, index) => {
-    element.setAttribute("data-index", index);
+  i = 0;
+  elements.forEach((element, i) => {
+    element.closest(".bookCard").setAttribute("data-id", i);
+    i++;
   });
 }
 
 document.getElementById("container").addEventListener("click", (e) => {
   if (e.target.classList.contains("removeBtn")) {
     const bookIndex = parseInt(e.target.closest(".bookCard").dataset.id);
-    console.log(bookIndex);
     elementToRemove = e.target.closest(".bookCard");
     if (elementToRemove) {
       elementToRemove.remove();
     }
     removeBook(bookIndex);
+    updateDataIndices();
   }
 });
 
@@ -162,14 +163,12 @@ document.getElementById("container").addEventListener("click", (e) => {
       readText.innerText = "no";
       e.target.style.backgroundColor = "red";
       e.target.innerHTML = "READ";
-      console.log(book);
     } else {
       e.target.innerText = "READ";
       e.target.style.backgroundColor = "green";
       e.target.innerHTML = "NOT READ";
       readText.innerText = "yes";
       book.read = "yes";
-      console.log(book);
     }
   }
 });
