@@ -1,9 +1,11 @@
 //Create constructor for Book
-function Book(author, name, pages, read) {
-  this.author = author;
-  this.name = name;
-  this.pages = pages;
-  this.read = read;
+class Book {
+  constructor(author, name, pages, read) {
+    this.author = author;
+    this.name = name;
+    this.pages = pages;
+    this.read = read;
+  }
 }
 
 //Set variables for the app
