@@ -11,6 +11,7 @@ class Book {
 //Set variables for the app
 const myLibrary = [];
 
+const form = document.querySelector("form");
 const author = document.getElementById("author");
 const name = document.getElementById("book");
 const pages = document.getElementById("pages");
@@ -18,6 +19,57 @@ const yesNo = document.getElementsByName("yesNo");
 const popUp = document.getElementById("popUp");
 const button = document.getElementById("btnPopUp");
 const buttonAdd = document.getElementById("btnAddBook");
+
+const titleAuthorRegExp = /^[A-Za-z]+([ '-][A-Za-z]+)*$/;
+const pagesRegExp = /[0-9]+/i;
+const handleWordValidation = (input) => {
+  if (!input || typeof input.value === "undefined") {
+    return false;
+  }
+  const isntValid =
+    input.value.length === 0 || !titleAuthorRegExp.test(input.value);
+  if (isntValid) {
+    input.classList.add("invalid");
+  } else {
+    input.classList.remove("invalid");
+    return true;
+  }
+};
+
+const handleNumberValidation = (input) => {
+  if (!input || typeof input.value === "undefined") {
+    return false;
+  }
+  const isntValid = input.value.length === 0 || !pagesRegExp.test(input.value);
+  if (isntValid) {
+    pages.classList.add("invalid");
+  } else {
+    pages.classList.remove("invalid");
+    return true;
+  }
+};
+
+const handleRadioValidation = (radioGroupName) => {
+  const selectedRadio = document.querySelector(
+    `input[name="${radioGroupName}"]:checked`
+  );
+
+  if (!selectedRadio) {
+    document
+      .querySelectorAll(`input[name="${radioGroupName}"]`)
+      .forEach((radio) => {
+        radio.classList.add("invalid");
+      });
+    return false; // Validation failed
+  }
+
+  document
+    .querySelectorAll(`input[name="${radioGroupName}"]`)
+    .forEach((radio) => {
+      radio.classList.remove("invalid");
+    });
+  return true; // Validation succeeded
+};
 
 function createBook() {
   let valueAuthor = author.value;
@@ -43,9 +95,31 @@ document.addEventListener("click", (e) => {
   }
 });
 
+//Validate inputs
+author.addEventListener("input", function (e) {
+  handleWordValidation(e.target);
+});
+name.addEventListener("input", function (e) {
+  handleWordValidation(e.target);
+});
+pages.addEventListener("input", function (e) {
+  handleNumberValidation(e.target);
+});
+
 //Add book to library and display library on click
 buttonAdd.addEventListener("click", (e) => {
   e.preventDefault();
+
+  const isTitleValid = handleWordValidation(name);
+  const isAuthorValid = handleWordValidation(author);
+  const isPagesValid = handleNumberValidation(pages);
+  const yesNoValid = handleRadioValidation("yesNo");
+
+  if (!isAuthorValid || !isTitleValid || !isPagesValid || !yesNoValid) {
+    showErrorMessage("Please ensure all fields are filled correctly.");
+    return;
+  }
+
   createBook();
   displayMyLibrary();
   clearFields();
@@ -55,6 +129,22 @@ buttonAdd.addEventListener("click", (e) => {
 //push new book to myLibrary array
 function addBookToLibrary(book) {
   myLibrary.push(book);
+}
+
+function showErrorMessage(message) {
+  const errorMessage = document.getElementById("errorMessage");
+  errorMessage.textContent = message;
+  errorMessage.classList.add("show");
+
+  // Remove the error message after 3 seconds
+  setTimeout(() => {
+    hideErrorMessage();
+  }, 3000);
+}
+
+function hideErrorMessage() {
+  const errorMessage = document.getElementById("errorMessage");
+  errorMessage.classList.remove("show");
 }
 
 //clear library function

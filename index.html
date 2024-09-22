@@ -8,6 +8,7 @@
 </html>
 </head>
 <body>
+  <div id="errorMessage" class="error-message"></div>
   <!-- <h1>THE TITLE OF YOUR WEBPAGE</h1> -->
   <!-- <div id="container"></div> -->
   <header>
@@ -23,11 +24,11 @@
       <div>
       <form>
         <label for="author">Author:</label>
-        <input type="text" id="author" /><br />
+        <input type="text" id="author" required/><br />
         <label for="book">Book:</label>
-        <input type="text" id="book" /><br />
+        <input type="text" id="book" required/><br />
         <label for="pages">Number of Pages:</label>
-        <input type="text" id="pages" /><br />
+        <input type="text" id="pages" required/><br />
         <label for="read">Have you read it yet?:</label>
         <label for="yes"
           ><input
@@ -35,6 +36,7 @@
             name="yesNo"
             id="yesNo"
             value="yes"
+            required
           />Yes</label
         >
         <label for="no"

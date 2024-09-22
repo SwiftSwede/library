@@ -47,6 +47,13 @@ form {
 input {
   margin-bottom: 10px;
 }
+input.invalid {
+  box-shadow: 0 0 3px 1px red;
+}
+
+input:focus:invalid {
+  box-shadow: none;
+}
 
 button {
   background-color: gold;
@@ -130,4 +137,23 @@ button:hover {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   visibility: hidden;
+}
+
+#errorMessage {
+  display: none; /* Initially hidden */
+  background-color: red;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: max-height 0.4s ease; /* Smooth slide effect */
+  max-height: 0; /* Collapsed by default */
+  overflow: hidden; /* Hide content when collapsed */
+}
+
+#error-message.show {
+  display: block;
+  max-height: 100px;
 }
