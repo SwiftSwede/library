@@ -5,12 +5,15 @@ html {
 
 body {
   margin: 0;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  background-color: #fafafa;
+}
+
+.container {
   display: grid;
   grid-template-rows: 7rem 7rem 1fr;
   grid-template-columns: auto;
   grid-auto-columns: min-content;
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
-  background-color: #fafafa;
 }
 
 header {
@@ -140,20 +143,18 @@ button:hover {
 }
 
 #errorMessage {
-  display: none; /* Initially hidden */
-  background-color: red;
+  max-height: 0;
+  background-color: #ff4d4d;
   color: white;
   text-align: center;
-  padding: 15px;
   font-size: 18px;
-  width: 100%;
-  box-sizing: border-box;
-  transition: max-height 0.4s ease; /* Smooth slide effect */
-  max-height: 0; /* Collapsed by default */
-  overflow: hidden; /* Hide content when collapsed */
+  font-weight: bold;
+  z-index: 1000;
+  transition: max-height 0.5s ease, padding 0.5s ease;
+  overflow: hidden;
 }
 
-#error-message.show {
-  display: block;
+#errorMessage.show {
+  padding: 15px;
   max-height: 100px;
 }

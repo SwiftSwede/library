@@ -115,9 +115,16 @@ buttonAdd.addEventListener("click", (e) => {
   const isPagesValid = handleNumberValidation(pages);
   const yesNoValid = handleRadioValidation("yesNo");
 
-  if (!isAuthorValid || !isTitleValid || !isPagesValid || !yesNoValid) {
-    showErrorMessage("Please ensure all fields are filled correctly.");
-    return;
+  let errorMessages = [];
+  if (!isAuthorValid) errorMessages.push("Invalid author name.");
+  if (!isTitleValid) errorMessages.push("Invalid book title.");
+  if (!isPagesValid) errorMessages.push("Invalid page number.");
+  if (!yesNoValid)
+    errorMessages.push("Please select whether you've read the book.");
+
+  if (errorMessages.length > 0) {
+    showErrorMessage(errorMessages.join(" ")); // Display combined error message
+    return; // Stop form submission
   }
 
   createBook();
@@ -131,16 +138,16 @@ function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
-function showErrorMessage(message) {
+const showErrorMessage = (message) => {
   const errorMessage = document.getElementById("errorMessage");
-  errorMessage.textContent = message;
+  errorMessage.innerText = message;
   errorMessage.classList.add("show");
 
   // Remove the error message after 3 seconds
   setTimeout(() => {
     hideErrorMessage();
   }, 3000);
-}
+};
 
 function hideErrorMessage() {
   const errorMessage = document.getElementById("errorMessage");
